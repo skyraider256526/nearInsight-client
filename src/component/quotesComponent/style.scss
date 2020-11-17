@@ -1,0 +1,67 @@
+// /* appear - on page load */
+// .fade-appear {
+//   opacity: 0;
+//   z-index: 1;
+// }
+// .fade-appear.fade-appear-active {
+//   opacity: 1;
+//   transition: opacity 2000ms ease-in-out;
+// }
+
+// /* enter */
+// .fade-enter {
+//   opacity: 0;
+//   z-index: 1;
+// }
+// .fade-enter.fade-enter-active {
+//   opacity: 1;
+//   transition: opacity 2000ms ease-in-out;
+// }
+
+// /* exit */
+// .fade-exit {
+//   opacity: 1;
+// }
+// .fade-exit.fade-exit-active {
+//   opacity: 0;
+//   transition: opacity 2000ms ease-in-out;
+// }
+// .fade-exit-done {
+//   opacity: 0;
+// }
+
+/* appear - on page load */
+.fade {
+  &-appear {
+    opacity: 0;
+    z-index: 1;
+    &.fade-appear-active {
+      opacity: 1;
+      transition: opacity 2000ms ease-in-out;
+    }
+  }
+
+  /* enter */
+
+  &-enter {
+    opacity: 0;
+    z-index: 1;
+    &.fade-enter-active {
+      opacity: 1;
+      transition: opacity 2000ms ease-in-out;
+    }
+  }
+
+  /* exit */
+
+  &-exit {
+    opacity: 1;
+    &.fade-exit-active {
+      opacity: 0;
+      transition: opacity 2000ms ease-in-out;
+    }
+    &-done {
+      opacity: 0;
+    }
+  }
+}

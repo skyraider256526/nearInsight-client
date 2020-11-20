@@ -18,12 +18,17 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth(),
   firestore = firebase.firestore();
 
+if (location.hostname === "localhost") {
+  firestore.useEmulator("localhost", 8080);
+  auth.useEmulator("http://localhost:9099/");
+}
+
 export async function createUserProfileDocument(
   userAuth: firebase.User | any,
   additionlData?: any
 ) {
   const userRef = firestore.doc(`users/${userAuth.uid}`);
-
+  const noImg = "no-img.png";
   const snapShot = await userRef.get();
 
   if (!snapShot.exists) {
@@ -31,9 +36,11 @@ export async function createUserProfileDocument(
       createdAt = new Date();
     try {
       await userRef.set({
+        userId: userAuth.uid,
         displayName,
         email,
         createdAt,
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         ...additionlData,
       });
     } catch (error) {

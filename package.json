@@ -17,6 +17,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/yup": "^0.29.9",
     "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
     "firebase": "^7.24.0",
     "formik": "^2.2.4",
     "node-sass": "^4.14.1",

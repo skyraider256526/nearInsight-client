@@ -17,7 +17,7 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import firebase, { auth, createUserProfileDocument } from "services/firebase";
+import firebase, { auth } from "services/firebase";
 
 import QuotesComponent from "component/quotesComponent";
 import BootstrapInput from "component/BootStrapInputComponent";
@@ -175,7 +175,7 @@ function SignUp() {
         email,
         password
       );
-      await createUserProfileDocument(user, { displayName });
+      // await createUserProfileDocument(user, { displayName });
       setCredentials({
         displayName: "",
         email: "",

@@ -17,6 +17,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/yup": "^0.29.9",
     "axios": "^0.21.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "firebase": "^7.24.0",
     "formik": "^2.2.4",
@@ -29,11 +30,13 @@
     "react-scripts": "4.0.0",
     "react-transition-group": "^4.4.1",
     "redux-persist": "^6.0.0",
+    "source-map-explorer": "^2.5.0",
     "typescript": "^3.8.3",
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": " react-scripts start",
+    "start": "BROWSER=none REACT_APP_FIREBASE_FUNCTIONS=http://localhost:5001/near-insight/us-central1/api react-app-rewired start",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -58,5 +61,6 @@
     "babel-plugin-import": "^1.13.1",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.6"
-  }
+  },
+  "proxy": "http://localhost:5001/near-insight/us-central1/api/"
 }

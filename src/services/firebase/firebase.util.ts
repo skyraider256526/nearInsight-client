@@ -15,40 +15,42 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth(),
-  firestore = firebase.firestore();
-
-if (location.hostname === "localhost") {
-  firestore.useEmulator("localhost", 8080);
-  auth.useEmulator("http://localhost:9099/");
-}
-
-export async function createUserProfileDocument(
-  userAuth: firebase.User | any,
-  additionlData?: any
+export const auth = firebase.auth();
+console.info(process.env.NODE_ENV);
+if (
+  process.env.NODE_ENV === "development" ||
+  window.location.hostname === "localhost"
 ) {
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
-  const noImg = "no-img.png";
-  const snapShot = await userRef.get();
-
-  if (!snapShot.exists) {
-    const { displayName, email } = userAuth,
-      createdAt = new Date();
-    try {
-      await userRef.set({
-        userId: userAuth.uid,
-        displayName,
-        email,
-        createdAt,
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
-        ...additionlData,
-      });
-    } catch (error) {
-      console.error("error creating user", error.message);
-    }
-  }
-
-  return userRef;
+  auth.useEmulator("http://localhost:9099/");
+} else {
 }
+
+// export async function createUserProfileDocument(
+//   userAuth: firebase.User | any,
+//   additionlData?: any
+// ) {
+//   const userRef = db.doc(`users/${userAuth.uid}`);
+//   const noImg = "no-img.png";
+//   const snapShot = await userRef.get();
+
+//   if (!snapShot.exists) {
+//     const { displayName, email } = userAuth,
+//       createdAt = new Date();
+//     try {
+//       await userRef.set({
+//         userId: userAuth.uid,
+//         displayName,
+//         email,
+//         createdAt,
+//         imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
+//         ...additionlData,
+//       });
+//     } catch (error) {
+//       console.error("error creating user", error.message);
+//     }
+//   }
+
+//   return userRef;
+// }
 
 export default firebase;

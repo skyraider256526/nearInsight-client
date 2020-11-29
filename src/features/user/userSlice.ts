@@ -25,9 +25,16 @@ export const userSlice = createSlice({
       },
     },
     extraReducers: builder => {
-      builder.addCase(userSignIn.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
-      });
+      builder
+        .addCase(userSignIn.fulfilled, (state, action) => {
+          state.currentUser = action.payload;
+          state.error = null;
+        })
+        .addCase(userSignIn.rejected, (state, action) => {
+          console.error(action.error);
+          state.error = action.error;
+          state.currentUser = null;
+        });
     },
   }),
   { setCurrentUser, signInFailure, signInSuccess } = userSlice.actions,

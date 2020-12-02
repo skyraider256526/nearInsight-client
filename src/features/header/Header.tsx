@@ -4,8 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Button, Link } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
-import { auth } from "services/firebase";
+import { NavLink, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,9 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar() {
+export default function Header() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const location = useLocation();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,7 +35,7 @@ export default function Navbar() {
   //TODO:Add current user in redux
   const currentUser = null;
 
-  return (
+  return location.pathname === "/" ? null : (
     <AppBar position="static">
       <Toolbar className={classes.root}>
         <Typography variant="h6" className={classes.title}>
@@ -43,7 +43,7 @@ export default function Navbar() {
         </Typography>
         <div>
           {currentUser ? (
-            <Button onClick={() => auth.signOut()}>SIGN OUT</Button>
+            <Button>SIGN OUT</Button>
           ) : (
             <Link component={NavLink} to="/signin">
               SIGN IN

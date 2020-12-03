@@ -1,11 +1,27 @@
 import React from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { Link } from "react-router-dom";
+
+import { RootState } from "app/store";
+import { useSelector, useDispatch } from "react-redux";
 
 // MUI
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+
+// Icons
+import ChatIcon from "@material-ui/icons/Chat";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+
+// Redux
+import { likePost, unlikePost } from "features/data/postSlice";
+
+import MyButton from "component/myButton";
+import PostDialog from "./PostDialog";
+import DeletePost from "./DeletePost";
+import LikeButton from "./LikeButton";
 
 interface Post {
   userImage: string;
@@ -23,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       position: "relative",
       display: "flex",
+
       marginBottom: 20,
     },
     image: {
@@ -44,7 +61,14 @@ export function Post({
 }: Post): JSX.Element {
   dayjs.extend(relativeTime);
   console.log(createdAt);
-  const classes = useStyles();
+  const classes = useStyles(),
+    credentials = useSelector(
+      (state: RootState) => state.user.currentUser.credentials
+    ),
+    deleteButton =
+      userId === credentials.userId ? <DeletePost postId={postId} /> : null;
+  console.log();
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -61,22 +85,22 @@ export function Post({
         >
           {displayName}
         </Typography>
-        {/* {deleteButton} */}
+        {deleteButton}
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt._seconds * 1000).fromNow()}
         </Typography>
         <Typography variant="body1">{body}</Typography>
-        {/* <LikeButton postId={postId} /> */}
+        <LikeButton postId={postId} />
         <span>{likeCount} Likes</span>
-        {/* <MyButton tip="comments">
+        <MyButton tip="comments" onClick={() => console.log("comment")}>
           <ChatIcon color="primary" />
-        </MyButton> */}
+        </MyButton>
         <span>{commentCount} comments</span>
-        {/* <ScreamDialog
+        <PostDialog
           postId={postId}
-          displayName={userHandle}
-          openDialog={openDialog}
-        /> */}
+          displayName={displayName}
+          // openDialog={openDialog}
+        />
       </CardContent>
     </Card>
   );

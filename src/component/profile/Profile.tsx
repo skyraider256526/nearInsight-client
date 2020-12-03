@@ -2,21 +2,28 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 // MUI stuff
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import MuiLink from "@material-ui/core/Link";
-import Paper from "@material-ui/core/Paper";
+import {
+  IconButton,
+  Tooltip,
+  Button,
+  Typography,
+  Paper,
+} from "@material-ui/core";
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import EditIcon from "@material-ui/icons/Edit";
 import CalendarToday from "@material-ui/icons/CalendarToday";
-import { useDispatch, useSelector } from "react-redux";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { RootState } from "app/store";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { uploadImage } from "features/user/userSlice";
+import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
+
 //Redux
+import { RootState } from "app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadImage, logOutUser } from "features/user/userSlice";
+
+import EditDetails from "./EditDetails";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,6 +146,12 @@ export function Profile() {
               Joined {dayjs(createdAt._seconds * 1000).format("MMM YYYY")}
             </span>
           </div>
+          <Tooltip title="Logout" placement="top">
+            <IconButton onClick={() => dispatch(logOutUser())}>
+              <KeyboardReturnIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (

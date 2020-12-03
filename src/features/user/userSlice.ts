@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "app/store";
 import axios, { AxiosError } from "axios";
+import { likePost, postSlice } from "features/data/postSlice";
 import { useHistory } from "react-router-dom";
 
 interface UserState {
@@ -87,6 +88,14 @@ export const logOutUser = () => (dispatch: any) => {
   dispatch(setUnAuthenticated(null));
 };
 
+export const editUserDetails = userDetails => (dispatch: any) => {
+  dispatch(setLoadingUser());
+  axios
+    .post("/user/detail", userDetails)
+    .then(() => dispatch(getUserData()))
+    .catch(err => console.error(err));
+};
+
 /// END: THUNK
 
 //TODO:Get the type of current user
@@ -161,6 +170,17 @@ export const userSlice = createSlice({
       builder.addCase(getUserData.fulfilled, (state, action) => {
         state.currentUser = { ...action.payload, isAuthenticated: true };
         state.profileLoading = false;
+      });
+      builder.addCase(postSlice.actions.likePost, (state, action) => {
+        state.currentUser.likes.push({
+          displayName: action.payload.displayName,
+          postId: action.payload.postId,
+        });
+      });
+      builder.addCase(postSlice.actions.unlikePost, (state, action) => {
+        state.currentUser.likes = state.currentUser.likes.filter(
+          like => like.postId !== action.payload.postId
+        );
       });
     },
   }),

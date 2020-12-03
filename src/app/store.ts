@@ -9,12 +9,17 @@ import storage from "redux-persist/lib/storage";
 import { PersistConfig, persistReducer } from "redux-persist";
 import counterReducer from "../features/counter/counterSlice";
 import userReducer from "features/user/userSlice";
+import postSlice from "features/data/postSlice";
 
 const persistConfig = {
     key: "root",
     storage,
   },
-  reducers = combineReducers({ counter: counterReducer, user: userReducer });
+  reducers = combineReducers({
+    counter: counterReducer,
+    user: userReducer,
+    post: postSlice,
+  });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({

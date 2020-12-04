@@ -96,6 +96,15 @@ export const editUserDetails = userDetails => (dispatch: any) => {
     .catch(err => console.error(err));
 };
 
+export const markNotificationsRead = notificationIds => dispatch => {
+  axios
+    .post("/user/notifications", notificationIds)
+    .then(res => {
+      dispatch(userSlice.actions.markNotificationsRead());
+    })
+    .catch(err => console.log(err));
+};
+
 /// END: THUNK
 
 //TODO:Get the type of current user
@@ -142,6 +151,11 @@ export const userSlice = createSlice({
       },
       signInFailure: (state, action: PayloadAction<any>) => {
         state.errors = action.payload;
+      },
+      markNotificationsRead: state => {
+        state.currentUser.notifications = state.currentUser.notifications.forEach(
+          not => (not.read = true)
+        );
       },
     },
     extraReducers: builder => {

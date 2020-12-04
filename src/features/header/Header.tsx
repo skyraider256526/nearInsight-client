@@ -9,12 +9,12 @@ import { Button, Link, AppBar, Toolbar, Typography } from "@material-ui/core";
 // Icons
 import HomeIcon from "@material-ui/icons/Home";
 import AddIcon from "@material-ui/icons/Add";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import { useSelector } from "react-redux";
 import { RootState } from "app/store";
 
 import MyButton from "component/myButton";
+import Notifications from "./Notifications";
 import { CreatePost } from "component/post";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,12 +50,9 @@ export default function Header() {
           {isAuthenticated && (
             <>
               <CreatePost />
-              <MyButton tip="Notifications" onClick={() => {}}>
-                <NotificationsIcon />
-              </MyButton>
+              <Notifications />
             </>
           )}
-          {/* <SignInDialog onClose={handleClose} open={open} /> */}
         </div>
       </Toolbar>
     </AppBar>
